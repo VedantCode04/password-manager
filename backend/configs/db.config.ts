@@ -4,6 +4,7 @@ export const initDB = () => {
     async function connect() {
         await mongoose.connect(process.env.MONGO_URI);
     }
+
     connect()
         .then(() => {
             console.log('DB connected successfully');
