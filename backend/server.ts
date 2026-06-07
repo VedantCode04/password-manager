@@ -5,7 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.middleware.js';
-import { initDB } from './configs/db.config.js';
+import { initDB, checkDb } from './configs/db.config.js';
 import morgan from 'morgan';
 import router from './routes/Routes.js';
 const app = express();
@@ -26,11 +26,16 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Password Manager server working');
 });
 
-app.get('/health', (req: Request, res: Response) => {
-    res.status(200).json({
-        status: 'ok',
+app.get('/health', async (req: Request, res: Response) => {
+    const dbOk: boolean = await checkDb(); // simple SELECT 1
+
+    const healthy = dbOk;
+
+    res.status(healthy ? 200 : 503).json({
+        status: healthy ? 'ok' : 'degraded',
         uptime: process.uptime(),
         timestamp: Date.now(),
+        memory: process.memoryUsage(),
     });
 });
 
