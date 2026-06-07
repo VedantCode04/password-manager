@@ -5,7 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.middleware.js';
-import { initDB } from './configs/db.config.js';
+import { initDB, checkDb } from './configs/db.config.js';
 import morgan from 'morgan';
 import router from './routes/Routes.js';
 const app = express();
