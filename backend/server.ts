@@ -26,6 +26,14 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Password Manager server working');
 });
 
+app.get('/health', (req: Request, res: Response) => {
+    res.status(200).json({
+        status: 'ok',
+        uptime: process.uptime(),
+        timestamp: Date.now(),
+    });
+});
+
 app.use('/api', router);
 
 app.use(errorHandler);
